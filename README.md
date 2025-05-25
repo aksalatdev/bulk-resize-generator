@@ -1,11 +1,19 @@
 # 🖼️ Resize Gambar 224x224 px Online
 
-Aplikasi web sederhana untuk me-resize banyak gambar sekaligus menjadi ukuran 224x224 pixel. Cocok untuk persiapan dataset machine learning atau keperluan lainnya.
+Aplikasi web sederhana untuk me-resize banyak gambar sekaligus menjadi ukuran yang dapat disesuaikan. Cocok untuk persiapan dataset machine learning atau keperluan lainnya.
+
+## 📸 Preview Aplikasi
+
+🔗 **[Lihat Screenshot Aplikasi](https://imgur.com/a/vtkkooD)**
+
+![Preview Aplikasi](https://imgur.com/kb5KUgw)
 
 ## ✨ Fitur Utama
 
 -   📁 **Upload ZIP**: Upload file ZIP berisi banyak gambar (JPEG/PNG)
--   🔄 **Auto Resize**: Otomatis resize semua gambar menjadi 224x224 pixel
+-   🔄 **Auto Resize**: Otomatis resize semua gambar dengan ukuran yang dapat disesuaikan
+-   🏷️ **Custom Prefix**: Penamaan file output dengan prefix custom (contoh: `vulkanik_1.jpg`, `vulkanik_2.jpg`)
+-   📏 **Flexible Size**: Atur ukuran target dari 64x64 hingga 2048x2048 pixel
 -   📊 **Progress Bar**: Tampilan progress real-time saat proses resize
 -   📥 **Download ZIP**: Download hasil resize dalam format ZIP
 -   👀 **Preview**: Tampilan preview 4-6 gambar hasil resize
@@ -57,11 +65,10 @@ resizeBulk/
 ├── requirements.txt    # Python dependencies
 ├── README.md          # Dokumentasi project
 ├── assets/            # Static files (images, icons)
-│   └── images/
 ├── uploads/           # Temporary upload folder
 ├── outputs/           # Processed images folder
 └── utils/            # Utility functions
-    └── image_processor.py
+    └── image_processing.py
 ```
 
 ## 🎯 Cara Penggunaan
@@ -73,35 +80,51 @@ resizeBulk/
     - File ZIP harus berisi gambar format JPEG/PNG
     - Maksimal ukuran file: 200MB
 
-2. **Proses Resize**
+2. **Atur Pengaturan (Sidebar)**
 
-    - Klik tombol "Start Resize Process"
+    - **Ukuran Target**: Atur lebar dan tinggi (64px - 2048px)
+    - **Prefix Output**: Masukkan nama prefix untuk file output (contoh: "vulkanik")
+    - Jika prefix kosong, akan menggunakan "resized" sebagai default
+
+3. **Proses Resize**
+
+    - Klik tombol "🚀 Start Resize Process"
     - Progress bar akan menampilkan kemajuan real-time
-    - Sistem akan otomatis resize semua gambar ke 224x224px
+    - Sistem akan otomatis resize semua gambar sesuai ukuran yang dipilih
 
-3. **Preview & Download**
+4. **Preview & Download**
     - Setelah proses selesai, preview gambar akan ditampilkan
-    - Klik tombol "Download Resized Images" untuk mengunduh ZIP
-    - File hasil akan berformat: `resized_images_TIMESTAMP.zip`
+    - Klik tombol "📦 Download ZIP Hasil Resize" untuk mengunduh
+    - File hasil akan berformat: `<prefix>_images_TIMESTAMP.zip`
+    - Nama file gambar: `<prefix>_1.jpg`, `<prefix>_2.jpg`, dll.
 
 ## 🔧 Konfigurasi
 
-### Pengaturan Ukuran Default
+### Pengaturan Ukuran Target
 
-Ubah ukuran default di file `utils/image_processor.py`:
+Atur ukuran target melalui sidebar:
 
-```python
-DEFAULT_SIZE = (224, 224)  # Ubah sesuai kebutuhan
-```
+-   **Lebar**: 64px - 2048px (default: 224px)
+-   **Tinggi**: 64px - 2048px (default: 224px)
+-   Increment: 32px untuk setiap step
+
+### Pengaturan Prefix Output
+
+Atur nama prefix melalui sidebar:
+
+-   **Default**: "resized" (jika input kosong)
+-   **Custom**: Masukkan nama sesuai keinginan (contoh: "vulkanik", "dataset")
+-   **Output**: File akan dinamai `<prefix>_1.jpg`, `<prefix>_2.jpg`, dst.
 
 ### Pengaturan Upload
 
-Ubah konfigurasi di `app.py`:
+Konfigurasi file upload (dapat diubah di `app.py`):
 
 ```python
 # Streamlit file uploader config
 MAX_FILE_SIZE = 200  # MB
 ALLOWED_EXTENSIONS = ['zip']
+SUPPORTED_IMAGE_FORMATS = ['.jpg', '.jpeg', '.png']
 ```
 
 ## 📊 Format File yang Didukung
@@ -114,8 +137,9 @@ ALLOWED_EXTENSIONS = ['zip']
 ### Output
 
 -   **Format**: Sama dengan input (JPEG/PNG)
--   **Ukuran**: 224x224 pixel
--   **Kompresi**: Otomatis optimized
+-   **Ukuran**: Dapat disesuaikan (default 224x224 pixel)
+-   **Penamaan**: `<prefix>_<nomor>.<ekstensi>` (contoh: `vulkanik_1.jpg`)
+-   **Kompresi**: Otomatis optimized (JPEG: 95% quality)
 
 ## 🚨 Troubleshooting
 
@@ -168,22 +192,64 @@ Project ini menggunakan lisensi MIT. Lihat file `LICENSE` untuk detail lengkap.
 
 ## 🎯 Roadmap
 
+-   [x] **Custom prefix untuk nama file output** ✅
+-   [x] **Flexible sizing (64px - 2048px)** ✅
+-   [x] **Sequential file naming** ✅
 -   [ ] Support format gambar tambahan (GIF, BMP, TIFF)
--   [ ] Multiple size options (512x512, 1024x1024)
--   [ ] Sidebar untuk pengaturan advanced
+-   [ ] Preset size options (128x128, 512x512, 1024x1024)
 -   [ ] Custom watermark option
 -   [ ] Batch processing dengan multiple ZIP files
 -   [ ] Export ke Google Drive/OneDrive
+-   [ ] Image quality settings
+-   [ ] Bulk rename dengan pattern custom
 
 ## 📝 Changelog
 
-### v1.0.0 (Current)
+### v1.1.0 (Current)
+
+-   ✅ **Custom prefix untuk nama file output**
+-   ✅ **Sequential file naming**: `<prefix>_1.jpg`, `<prefix>_2.jpg`, dst.
+-   ✅ **Flexible target size**: 64px - 2048px dengan step 32px
+-   ✅ **Improved sidebar**: Pengaturan ukuran dan prefix yang terpisah
+-   ✅ **Better file naming**: Konsisten dengan format `<prefix>_images_timestamp.zip`
+
+### v1.0.0
 
 -   ✅ Streamlit file uploader untuk ZIP files
 -   ✅ Real-time progress bar dengan st.progress
 -   ✅ Image preview dengan st.image
 -   ✅ Download button untuk hasil resize
 -   ✅ Clean dan intuitive Streamlit interface
+
+## 📷 Contoh Output
+
+Berdasarkan file yang ada di workspace, berikut contoh hasil dari aplikasi:
+
+### Input
+
+-   File ZIP berisi gambar tanah podsol
+
+### Output dengan prefix "podsol"
+
+```
+outputs/podsol_images_8f7cba9c.zip
+├── podsol_1.jpg
+├── podsol_2.jpg
+├── podsol_3.jpg
+├── ...
+└── podsol_21.jpg
+```
+
+### Output default (tanpa prefix)
+
+```
+outputs/resized_images_f17e36fd.zip
+├── resized_1.jpg
+├── resized_2.jpg
+├── resized_3.jpg
+├── ...
+└── resized_21.jpg
+```
 
 ---
 

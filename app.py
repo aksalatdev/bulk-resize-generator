@@ -205,9 +205,10 @@ def main():
         st.markdown("""
         1. **Upload ZIP** - Pilih file ZIP berisi gambar
         2. **Set Ukuran** - Atur ukuran target di sidebar
-        3. **Proses** - Klik tombol "Start Resize Process"
-        4. **Preview** - Lihat hasil preview
-        5. **Download** - Unduh ZIP hasil resize
+        3. **Set Nama Output File** - Atur nama output file di sidebar
+        4. **Proses** - Klik tombol "Start Resize Process"
+        5. **Preview** - Lihat hasil preview
+        6. **Download** - Unduh ZIP hasil resize
         """)
 
     # Processing section

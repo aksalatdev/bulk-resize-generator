@@ -179,18 +179,14 @@ def main():
     # Main content area
     col1, col2 = st.columns([2, 1])
 
-    with col1:
-        # File upload section
+    with col1:        # File upload section
         st.subheader("📁 Upload File ZIP")
 
-        # Upload area with custom styling
-        st.markdown('<div class="upload-area">', unsafe_allow_html=True)
         uploaded_file = st.file_uploader(
             "Pilih file ZIP yang berisi gambar",
             type=['zip'],
             help="Upload file ZIP yang berisi gambar dalam format JPG, JPEG, atau PNG"
         )
-        st.markdown('</div>', unsafe_allow_html=True)
 
         # Display file info if uploaded
         if uploaded_file is not None:
@@ -328,7 +324,7 @@ def main():
     st.divider()
     st.markdown("""
     <div style='text-align: center; color: #666; padding: 20px;'>
-        <p>🖼️ <strong>Bulk Image Resizer</strong> | Dibuat dengan ❤️ menggunakan Streamlit</p>
+        <p>🖼️ <strong>Bulk Image Resizer</strong> | Dibuat dengan ❤️ by abitahtaaa</p>
         <p><small>Aplikasi untuk membantu resize gambar secara batch dengan mudah dan cepat.</small></p>
     </div>
     """, unsafe_allow_html=True)

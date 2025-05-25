@@ -147,6 +147,21 @@ def main():
         "Tinggi (px)", min_value=64, max_value=2048, value=224, step=32)
     target_size = (width, height)
 
+    # Output naming settings
+    st.sidebar.subheader("🏷️ Penamaan Output")
+    prefix = st.sidebar.text_input(
+        "Prefix nama file",
+        value="",
+        placeholder="contoh: vulkanik",
+        help="Nama prefix untuk file output. Kosongkan untuk menggunakan 'resized'"
+    )
+
+    # Use default prefix if empty
+    if not prefix.strip():
+        prefix = "resized"
+    else:
+        prefix = prefix.strip()
+
     # Info section
     st.sidebar.subheader("ℹ️ Informasi")
     st.sidebar.info("""
@@ -181,10 +196,10 @@ def main():
         if uploaded_file is not None:
             file_size_mb = uploaded_file.size / (1024 * 1024)
             st.markdown(f"""
-            <div class="info-box">
-                <strong>File terpilih:</strong> {uploaded_file.name}<br>
+            <div class="info-box">                <strong>File terpilih:</strong> {uploaded_file.name}<br>
                 <strong>Ukuran:</strong> {file_size_mb:.2f} MB<br>
-                <strong>Target resize:</strong> {width}x{height} pixels
+                <strong>Target resize:</strong> {width}x{height} pixels<br>
+                <strong>Prefix output:</strong> {prefix}
             </div>
             """, unsafe_allow_html=True)
 
@@ -226,15 +241,14 @@ def main():
 
                 # Progress indicators
                 progress_bar = st.progress(0)
-                status_text = st.empty()
-
-                # Start processing
+                status_text = st.empty()                # Start processing
                 start_time = time.time()
                 status_text.text("🔄 Mengekstrak file ZIP...")
 
                 try:
                     # Process images
-                    result = process_bulk_resize(uploaded_file, target_size)
+                    result = process_bulk_resize(
+                        uploaded_file, target_size, prefix)
 
                     # Update progress
                     progress_bar.progress(100)
@@ -253,9 +267,8 @@ def main():
                         """, unsafe_allow_html=True)
 
                         # Display statistics
-                        display_processing_stats(result)
-
                         # Display preview
+                        display_processing_stats(result)
                         if result['resized_files']:
                             st.divider()
                             display_image_preview(
@@ -272,7 +285,7 @@ def main():
                             st.download_button(
                                 label="📦 Download ZIP Hasil Resize",
                                 data=zip_data,
-                                file_name=f"resized_images_{datetime.now().strftime('%Y%m%d_%H%M%S')}.zip",
+                                file_name=f"{prefix}_images_{datetime.now().strftime('%Y%m%d_%H%M%S')}.zip",
                                 mime="application/zip",
                                 type="primary",
                                 use_container_width=True

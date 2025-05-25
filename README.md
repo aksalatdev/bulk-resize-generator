@@ -4,10 +4,20 @@ Aplikasi web sederhana untuk me-resize banyak gambar sekaligus menjadi ukuran ya
 
 ## 📸 Preview Aplikasi
 
-🔗 **[Lihat Screenshot Aplikasi](https://imgur.com/a/vtkkooD)**
+🔗 **[Lihat Semua Screenshot](https://imgur.com/a/vtkkooD)**
 
-![Preview Aplikasi](https://i.imgur.com/kb5KUgw.png)
-![Preview Aplikasi](https://imgur.com/ygGazMT.png)
+<div align="center">
+  
+###  ⚡ Proses & Hasil
+![Interface Utama - Upload & Settings](https://i.imgur.com/kb5KUgw.png)
+
+### 🖼️ Interface Utama(Sidebar) - Preview
+
+![Proses Resize & Download](https://i.imgur.com/ygGazMT.png)
+
+</div>
+
+---
 
 ## ✨ Fitur Utama
 

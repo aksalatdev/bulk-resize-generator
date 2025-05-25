@@ -6,7 +6,8 @@ Aplikasi web sederhana untuk me-resize banyak gambar sekaligus menjadi ukuran ya
 
 🔗 **[Lihat Screenshot Aplikasi](https://imgur.com/a/vtkkooD)**
 
-![Preview Aplikasi](https://imgur.com/kb5KUgw)
+![Preview Aplikasi](https://i.imgur.com/kb5KUgw.png)
+![Preview Aplikasi](https://imgur.com/ygGazMT.png)
 
 ## ✨ Fitur Utama
 

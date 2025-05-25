@@ -81,9 +81,7 @@ class ImageProcessor:
 
                 # Resize with high quality
                 resized_img = img.resize(
-                    self.target_size, Image.Resampling.LANCZOS)
-
-                # Determine output format and quality
+                    self.target_size, Image.Resampling.LANCZOS)                # Determine output format and quality
                 output_format = 'JPEG' if input_path.lower().endswith(('.jpg', '.jpeg')) else 'PNG'
 
                 if output_format == 'JPEG':
@@ -99,13 +97,14 @@ class ImageProcessor:
             print(f"Error resizing image {input_path}: {str(e)}")
             return False
 
-    def resize_images_batch(self, image_files: List[str], output_dir: str, progress_callback=None) -> Tuple[List[str], int, int]:
+    def resize_images_batch(self, image_files: List[str], output_dir: str, prefix: str = "resized", progress_callback=None) -> Tuple[List[str], int, int]:
         """
         Resize multiple images in batch
 
         Args:
             image_files: List of image file paths to resize
             output_dir: Directory to save resized images
+            prefix: Prefix for output filenames
             progress_callback: Optional callback function for progress updates
 
         Returns:
@@ -122,9 +121,9 @@ class ImageProcessor:
 
         for i, image_path in enumerate(image_files):
             try:
-                # Generate output filename
+                # Generate output filename with sequential numbering
                 filename = os.path.basename(image_path)
-                name, ext = os.path.splitext(filename)
+                _, ext = os.path.splitext(filename)
 
                 # Ensure JPEG extension for JPG files
                 if ext.lower() in ['.jpg', '.jpeg']:
@@ -132,7 +131,7 @@ class ImageProcessor:
                 elif ext.lower() == '.png':
                     ext = '.png'
 
-                output_filename = f"{name}_resized{ext}"
+                output_filename = f"{prefix}_{i + 1}{ext}"
                 output_path = os.path.join(output_dir, output_filename)
 
                 # Resize the image
@@ -224,13 +223,14 @@ class ImageProcessor:
             }
 
 
-def process_bulk_resize(uploaded_file, target_size=(224, 224)) -> dict:
+def process_bulk_resize(uploaded_file, target_size=(224, 224), prefix="resized") -> dict:
     """
     Main function to process bulk image resize
 
     Args:
         uploaded_file: Streamlit uploaded file object
         target_size: Target size for resized images
+        prefix: Prefix for output filenames
 
     Returns:
         Dictionary with results
@@ -264,15 +264,11 @@ def process_bulk_resize(uploaded_file, target_size=(224, 224)) -> dict:
                 'success': False,
                 'error': 'No valid image files found in ZIP',
                 'cleanup_dirs': [temp_dir, output_dir]
-            }
-
-        # Resize images
+            }        # Resize images
         resized_files, successful, failed = processor.resize_images_batch(
-            image_files, output_dir
-        )
-
-        # Create output ZIP
-        output_zip_name = f"resized_images_{session_id}.zip"
+            image_files, output_dir, prefix
+        )        # Create output ZIP
+        output_zip_name = f"{prefix}_images_{session_id}.zip"
         output_zip_path = os.path.join("outputs", output_zip_name)
 
         if processor.create_zip(resized_files, output_zip_path):
